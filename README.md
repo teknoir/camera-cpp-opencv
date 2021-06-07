@@ -2,15 +2,6 @@
 A small footprint c++ camera app.
 
 ## Build
-Nvidia has made it virtually impossble to create a pure cloud based pipeline for the Jetson Nano.
-The base image has to be built on a real Jetson Nano with matching Jetpack version.
-### Build on Jentson Nano
-Clone this repo and run:
-```bash
-./build_on_devboard.sh
-```
-
-To add yolov3, yolov3-tiny and yolov4 to the docker images:
 ```bash
 gcloud builds submit . --config=cloudbuild.yaml --timeout=3600 --substitutions=SHORT_SHA="$(date +v%Y%m%d)-$(git describe --tags --always --dirty)-$(git diff | shasum -a256 | cut -c -6)"
 ```

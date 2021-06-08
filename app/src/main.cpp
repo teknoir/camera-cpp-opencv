@@ -45,7 +45,7 @@ const std::string MQTT_OUT_0(getOrDefault("MQTT_OUT_0", "camera/images"));
 // The QoS to use for publishing and subscribing
 const int QOS = 1;
 // Interval between images
-const double IMAGE_INTERVAL(std::stod(getOrDefault("IMAGE_INTERVAL", "1.0")));
+const std::chrono::duration<int, std::milli> IMAGE_INTERVAL((int)(std::stod(getOrDefault("IMAGE_INTERVAL", "1.0"))*1000));
 // Image capture width
 const int IMAGE_WIDTH(std::stoi(getOrDefault("IMAGE_WIDTH", "800")));
 // Image capture height
@@ -253,7 +253,7 @@ int main(int argc, char* argv[])
         cli.publish(pubmsg);
         std::cout << "Image published..." << std::endl;
 
-        usleep(1000000);
+        std::this_thread::sleep_for(IMAGE_INTERVAL);
     }
 
     cap.release();

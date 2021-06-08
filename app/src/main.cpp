@@ -20,6 +20,7 @@ using json = nlohmann::json;
 
 // #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 // #include <opencv2/videoio.hpp>
 // #include <opencv2/highgui.hpp>
 
@@ -43,6 +44,14 @@ const std::string SERVER_ADDRESS("tcp://"+getOrDefault("MQTT_SERVICE_HOST", "mqt
 const std::string MQTT_OUT_0(getOrDefault("MQTT_OUT_0", "camera/images"));
 // The QoS to use for publishing and subscribing
 const int QOS = 1;
+// Interval between images
+const double IMAGE_INTERVAL(std::stod(getOrDefault("IMAGE_INTERVAL", "1.0")));
+// Image capture width
+const int IMAGE_WIDTH(std::stoi(getOrDefault("IMAGE_WIDTH", "800")));
+// Image capture height
+const int IMAGE_HEIGHT(std::stoi(getOrDefault("IMAGE_HEIGHT", "600")));
+// Device
+const int DEVICE_ID(std::stoi(getOrDefault("DEVICE_ID", "0")));
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -204,22 +213,25 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	int capture_width = 800 ;
-    int capture_height = 600 ;
-    int display_width = 800 ;
-    int display_height = 600 ;
-    int framerate = 30 ;
-    int flip_method = 0 ;
+//	int capture_width = 800 ;
+//    int capture_height = 600 ;
+//    int display_width = 800 ;
+//    int display_height = 600 ;
+//    int framerate = 30 ;
+//    int flip_method = 0 ;
 
-    std::string pipeline = gstreamer_pipeline(capture_width,
-	capture_height,
-	display_width,
-	display_height,
-	framerate,
-	flip_method);
-    std::cout << "Using pipeline: \n\t" << pipeline << "\n";
+//    std::string pipeline = gstreamer_pipeline(capture_width,
+//	capture_height,
+//	display_width,
+//	display_height,
+//	framerate,
+//	flip_method);
+//    std::cout << "Using pipeline: \n\t" << pipeline << "\n";
 
-    cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
+//    cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
+    cv::VideoCapture cap(DEVICE_ID);
+    cap.set(cv::CAP_PROP_FRAME_WIDTH, IMAGE_WIDTH);
+    cap.set(cv::CAP_PROP_FRAME_HEIGHT, IMAGE_HEIGHT);
     if(!cap.isOpened()) {
         std::cerr << "Failed to open camera." << std::endl;
         return (-1);
@@ -247,55 +259,3 @@ int main(int argc, char* argv[])
     cap.release();
     return 0;
 }
-
-
-
-
-
-
-
-
-
-//int main()
-//{
-//    int capture_width = 1280 ;
-//    int capture_height = 720 ;
-//    int display_width = 1280 ;
-//    int display_height = 720 ;
-//    int framerate = 60 ;
-//    int flip_method = 0 ;
-//
-//    std::string pipeline = gstreamer_pipeline(capture_width,
-//	capture_height,
-//	display_width,
-//	display_height,
-//	framerate,
-//	flip_method);
-//    std::cout << "Using pipeline: \n\t" << pipeline << "\n";
-//
-//    cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
-//    if(!cap.isOpened()) {
-//	std::cout<<"Failed to open camera."<<std::endl;
-//	return (-1);
-//    }
-//
-//    cv::namedWindow("CSI Camera", cv::WINDOW_AUTOSIZE);
-//    cv::Mat img;
-//
-//    std::cout << "Hit ESC to exit" << "\n" ;
-//    while(true)
-//    {
-//    	if (!cap.read(img)) {
-//		std::cout<<"Capture read error"<<std::endl;
-//		break;
-//	}
-//
-//	cv::imshow("CSI Camera",img);
-//	int keycode = cv::waitKey(30) & 0xff ;
-//        if (keycode == 27) break ;
-//    }
-//
-//    cap.release();
-//    cv::destroyAllWindows() ;
-//    return 0;
-//}

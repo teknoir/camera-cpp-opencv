@@ -1,4 +1,4 @@
-# Teknoir Camera OpenVC C++
+# Teknoir Camera OpenCV C++
 A small footprint c++ camera app.
 
 ## Build

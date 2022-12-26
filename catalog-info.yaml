@@ -1,0 +1,20 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  title: OpenCV Camera
+  name: camera-opencv-app
+  namespace: teknoir
+  description: The OpenCV Camera app collect images from cameras connected to the device
+  annotations:
+    'github.com/project-slug': teknoir/camera-cpp-opencv
+    'backstage.io/techdocs-ref': dir:.
+  tags:
+    - peripheral
+spec:
+  type: app
+  owner: group:teknoir/public
+  system: system:teknoir/computer-vision
+  lifecycle: experimental
+  dependsOn:
+    - component:teknoir/gcr.io.teknoir.camera_cppcv

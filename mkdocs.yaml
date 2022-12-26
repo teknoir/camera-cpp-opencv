@@ -1,0 +1,10 @@
+site_name: OpenCV Camera app user documentation
+site_description: The OpenCV Camera app collect images from cameras connected to the device
+repo_url: https://github.com/teknoir/camera-cpp-opencv
+edit_uri: edit/main/docs
+
+nav:
+  - Start: 'index.md'
+
+plugins:
+  - techdocs-core
